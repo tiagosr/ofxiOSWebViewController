@@ -1,15 +1,12 @@
-ofxiPhoneWebViewController
-==========================
+ofxiOSWebViewController
+=======================
 
-This is an example project for using the ofxiPhoneWebViewController to present a fullscreen UIWebView with openFrameworks.
+An addon for displaying and interacting with a web view (loading local and online files)
 
-contact@daanvanhasselt.com
-www.daanvanhasselt.com
+@tiagosr
+http://twitter.com/tiagosr
 
 about this fork:
 ==========================
 
-This version improves the original project with ideas from teh openFrameworks forum:
-http://forum.openframeworks.cc/index.php?topic=9326.0
-
-&& Needs I´m facing developing an Ipad Project with OF and UIWebView
+This version improves on an improvement on the original project at https://github.com/danvanhasselt/ofxiPhoneWebViewController
