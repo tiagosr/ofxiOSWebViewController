@@ -1,5 +1,5 @@
 //
-//  ofxiPhoneWebViewController.h
+//  ofxiOSWebViewController.h
 //  emptyExample
 //
 //  Created by Daan van Hasselt on 5/28/12.
@@ -15,30 +15,30 @@
 /// Event
 ///-------------------------------------------------
 
-typedef enum _ofxiPhoneWebViewState{
-    ofxiPhoneWebViewStateUndefined,
-    ofxiPhoneWebViewStateDidStartLoading,
-    ofxiPhoneWebViewStateDidFinishLoading,
-    ofxiPhoneWebViewStateDidFailLoading
-} ofxiPhoneWebViewState;
+typedef enum _ofxiOSWebViewState{
+    ofxiOSWebViewStateUndefined,
+    ofxiOSWebViewStateDidStartLoading,
+    ofxiOSWebViewStateDidFinishLoading,
+    ofxiOSWebViewStateDidFailLoading
+} ofxiOSWebViewState;
 
-class ofxiPhoneWebViewControllerEventArgs : public ofEventArgs
+class ofxiOSWebViewControllerEventArgs : public ofEventArgs
 {     
 
     public:
     
         NSURL *url;
         NSError *error;
-        ofxiPhoneWebViewState state;
+        ofxiOSWebViewState state;
     
-        ofxiPhoneWebViewControllerEventArgs()
+        ofxiOSWebViewControllerEventArgs()
         {
             url = nil;
             error = nil;
-            state = ofxiPhoneWebViewStateUndefined;
+            state = ofxiOSWebViewStateUndefined;
         }
     
-        ofxiPhoneWebViewControllerEventArgs(NSURL *_url, ofxiPhoneWebViewState _state, NSError *_error)
+        ofxiOSWebViewControllerEventArgs(NSURL *_url, ofxiOSWebViewState _state, NSError *_error)
         {
             url = _url;
             state = _state;
@@ -51,8 +51,8 @@ class ofxiPhoneWebViewControllerEventArgs : public ofEventArgs
 /// c++ OF class
 ///-------------------------------------------------
 
-@class ofxiPhoneWebViewDelegate;
-class ofxiPhoneWebViewController {
+@class ofxiOSWebViewDelegate;
+class ofxiOSWebViewController {
     
 public:
 
@@ -62,9 +62,9 @@ public:
     void setOrientation(ofOrientation orientation);
     
     void loadNewUrl(NSURL *url);
-    void loadLocalFile(string & filename);
+    void loadLocalFile(const string & filename);
     
-    ofEvent<ofxiPhoneWebViewControllerEventArgs> event;
+    ofEvent<ofxiOSWebViewControllerEventArgs> event;
     
     bool autoRotation;
     void setAutoRotation(bool _autoRotation);
@@ -81,7 +81,7 @@ private:
     void createView(BOOL withToolbar, CGRect frame, BOOL transparent, BOOL scroll);
     UIView *_view;
     UIWebView *_webView;
-    ofxiPhoneWebViewDelegate *_delegate;
+    ofxiOSWebViewDelegate *_delegate;
     
     bool isRetina();
     
@@ -91,11 +91,11 @@ private:
 /// obj-c webview delegate
 ///-------------------------------------------------
 
-@interface ofxiPhoneWebViewDelegate : NSObject <UIWebViewDelegate> {
+@interface ofxiOSWebViewDelegate : NSObject <UIWebViewDelegate> {
     int _numWebViewLoads; // to prevent firing delegate multiple times
 }
 
 - (void)closeButtonTapped;
 
-@property (nonatomic, assign) ofxiPhoneWebViewController *delegate;
+@property (nonatomic, assign) ofxiOSWebViewController *delegate;
 @end

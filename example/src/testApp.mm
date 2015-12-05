@@ -6,31 +6,30 @@ void testApp::setup(){
 	// initialize the accelerometer
 	ofxAccelerometer.setup();
 	//If you want a landscape oreintation
-	iPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT);
+	ofSetOrientation(OFXIOS_ORIENTATION_LANDSCAPE_LEFT);
 	
 	ofBackground(127);
 
     inlineWebViewController.showView(ofGetWindowWidth(), ofGetWindowHeight(), YES, NO, YES, NO);
-    inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT);
+    inlineWebViewController.setOrientation(OFXIOS_ORIENTATION_LANDSCAPE_LEFT);
     inlineWebViewController.setAutoRotation(false);
     
     ofAddListener(inlineWebViewController.event, this, &testApp::webViewEvent);
     
-    string fileToLoad = "demo";
-    inlineWebViewController.loadLocalFile(fileToLoad);
+    inlineWebViewController.loadLocalFile("www/demo.html");
 
 }
 
 //--------------------------------------------------------------
-void testApp::webViewEvent(ofxiPhoneWebViewControllerEventArgs &args) {
-    if(args.state == ofxiPhoneWebViewStateDidStartLoading){
-        NSLog(@"Webview did start loading URL %@.", args.url);
+void testApp::webViewEvent(ofxiOSWebViewControllerEventArgs &args) {
+    if(args.state == ofxiOSWebViewStateDidStartLoading){
+        NSLog(@"Webview started loading URL %@.", args.url);
     }
-    else if(args.state == ofxiPhoneWebViewStateDidFinishLoading){
-        NSLog(@"Webview did finish loading URL %@.", args.url);
+    else if(args.state == ofxiOSWebViewStateDidFinishLoading){
+        NSLog(@"Webview finished loading URL %@.", args.url);
     }
-    else if(args.state == ofxiPhoneWebViewStateDidFailLoading){
-        NSLog(@"Webview did fail to load the URL %@. Error: %@", args.url, args.error);
+    else if(args.state == ofxiOSWebViewStateDidFailLoading){
+        NSLog(@"Webview failed to load the URL %@. Error: %@", args.url, args.error);
     }
 }
 
@@ -105,16 +104,16 @@ void testApp::deviceOrientationChanged(int newOrientation){
 
     switch (newOrientation) {
         case 1:
-            inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_PORTRAIT);
+            inlineWebViewController.setOrientation(OFXIOS_ORIENTATION_PORTRAIT);
             break;
         case 2:
-            inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_UPSIDEDOWN);
+            inlineWebViewController.setOrientation(OFXIOS_ORIENTATION_UPSIDEDOWN);
             break;
         case 3:
-            inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT);
+            inlineWebViewController.setOrientation(OFXIOS_ORIENTATION_LANDSCAPE_LEFT);
             break;
         case 4:
-            inlineWebViewController.setOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
+            inlineWebViewController.setOrientation(OFXIOS_ORIENTATION_LANDSCAPE_RIGHT);
             break;
         default:
             break;

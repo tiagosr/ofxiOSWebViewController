@@ -1,12 +1,12 @@
 //
-//  ofxiPhoneWebViewControlle.mm
+//  ofxiOSWebViewControlle.mm
 //  emptyExample
 //
 //  Created by Daan van Hasselt on 5/28/12.
 //  Copyright (c) 2012 Touchwonders B.V. All rights reserved.
 //
 
-#include "ofxiPhoneWebViewController.h"
+#include "ofxiOSWebViewController.h"
 
 ///-------------------------------------------------
 /// c++ OF class
@@ -15,10 +15,10 @@
 #pragma mark - C++ OF class
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::showView(int frameWidth, int frameHeight, BOOL animated, BOOL addToolbar, BOOL transparent, BOOL scroll) {
+void ofxiOSWebViewController::showView(int frameWidth, int frameHeight, BOOL animated, BOOL addToolbar, BOOL transparent, BOOL scroll) {
     
     // init delegate
-    _delegate = [[ofxiPhoneWebViewDelegate alloc] init];
+    _delegate = [[ofxiOSWebViewDelegate alloc] init];
     _delegate.delegate = this;
     
     // create the view
@@ -43,7 +43,7 @@ void ofxiPhoneWebViewController::showView(int frameWidth, int frameHeight, BOOL 
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::hideView(BOOL animated){
+void ofxiOSWebViewController::hideView(BOOL animated){
     if(animated){
         [UIView animateWithDuration:0.5 animations:^{
             _view.alpha = 0;
@@ -66,14 +66,14 @@ void ofxiPhoneWebViewController::hideView(BOOL animated){
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::setAutoRotation(bool _autoRotation){
+void ofxiOSWebViewController::setAutoRotation(bool _autoRotation){
     
         autoRotation = _autoRotation;
     
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::setOrientation(ofOrientation orientation){
+void ofxiOSWebViewController::setOrientation(ofOrientation orientation){
     
     float rotation = 0;
     int screenWidth = ofGetWindowWidth();
@@ -84,13 +84,13 @@ void ofxiPhoneWebViewController::setOrientation(ofOrientation orientation){
         screenHeight = screenHeight/2;
     }
     
-    if(orientation == OFXIPHONE_ORIENTATION_UPSIDEDOWN) {
+    if(orientation == OFXIOS_ORIENTATION_UPSIDEDOWN) {
         rotation = PI;
     }
-    if(orientation == OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT) {
+    if(orientation == OFXIOS_ORIENTATION_LANDSCAPE_LEFT) {
         rotation = PI / 2.0;
     }
-    if(orientation == OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT) {
+    if(orientation == OFXIOS_ORIENTATION_LANDSCAPE_RIGHT) {
         rotation = -PI / 2.0;
     }
     
@@ -107,7 +107,7 @@ void ofxiPhoneWebViewController::setOrientation(ofOrientation orientation){
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::loadNewUrl(NSURL *url) {
+void ofxiOSWebViewController::loadNewUrl(NSURL *url) {
     
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -115,24 +115,21 @@ void ofxiPhoneWebViewController::loadNewUrl(NSURL *url) {
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::loadLocalFile(string & filename) {
+void ofxiOSWebViewController::loadLocalFile(const string & filename) {
   
     NSString *_filename = [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]];
     
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    NSString *path = [[[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"] stringByAppendingString:_filename];
+    NSURL *URL = [NSURL fileURLWithPath:path];
     
-    NSString *htmlFile = [[NSBundle mainBundle] pathForResource:_filename ofType:@"html" inDirectory:@"www"];
-        
-    NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-    [_webView loadHTMLString:htmlString baseURL:baseURL];
+    [_webView loadRequest:[NSURLRequest requestWithURL:URL]];
 
 }
 
 #pragma mark Private
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::createView(BOOL withToolbar, CGRect frame, BOOL transparent, BOOL scroll){
+void ofxiOSWebViewController::createView(BOOL withToolbar, CGRect frame, BOOL transparent, BOOL scroll){
     
     ///////////////////////////////////////////////////////////////////
     // Init view
@@ -187,7 +184,7 @@ void ofxiPhoneWebViewController::createView(BOOL withToolbar, CGRect frame, BOOL
 
 }
 
-bool ofxiPhoneWebViewController::isRetina(){
+bool ofxiOSWebViewController::isRetina(){
     
     bool isRetina;
     
@@ -232,20 +229,20 @@ bool ofxiPhoneWebViewController::isRetina(){
 #pragma mark Callbacks
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::didStartLoad() {
-    ofxiPhoneWebViewControllerEventArgs args = ofxiPhoneWebViewControllerEventArgs(_webView.request.URL, ofxiPhoneWebViewStateDidStartLoading, nil);
+void ofxiOSWebViewController::didStartLoad() {
+    ofxiOSWebViewControllerEventArgs args = ofxiOSWebViewControllerEventArgs(_webView.request.URL, ofxiOSWebViewStateDidStartLoading, nil);
     ofNotifyEvent(event, args, this);
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::didFinishLoad() {
-    ofxiPhoneWebViewControllerEventArgs args = ofxiPhoneWebViewControllerEventArgs(_webView.request.URL, ofxiPhoneWebViewStateDidFinishLoading, nil);
+void ofxiOSWebViewController::didFinishLoad() {
+    ofxiOSWebViewControllerEventArgs args = ofxiOSWebViewControllerEventArgs(_webView.request.URL, ofxiOSWebViewStateDidFinishLoading, nil);
     ofNotifyEvent(event, args, this);
 }
 
 //--------------------------------------------------------------
-void ofxiPhoneWebViewController::didFailLoad(NSError *error) {
-    ofxiPhoneWebViewControllerEventArgs args = ofxiPhoneWebViewControllerEventArgs(_webView.request.URL, ofxiPhoneWebViewStateDidFailLoading, error);
+void ofxiOSWebViewController::didFailLoad(NSError *error) {
+    ofxiOSWebViewControllerEventArgs args = ofxiOSWebViewControllerEventArgs(_webView.request.URL, ofxiOSWebViewStateDidFailLoading, error);
     ofNotifyEvent(event, args, this);
 }
 
@@ -254,7 +251,7 @@ void ofxiPhoneWebViewController::didFailLoad(NSError *error) {
 ///-------------------------------------------------
 #pragma mark - Obj-c WebView Delegate
 
-@implementation ofxiPhoneWebViewDelegate
+@implementation ofxiOSWebViewDelegate
 
 @synthesize delegate;
 

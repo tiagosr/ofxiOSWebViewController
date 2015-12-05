@@ -1,11 +1,11 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxiPhone.h"
-#include "ofxiPhoneExtras.h"
-#include "ofxiPhoneWebViewController.h"
+#include "ofxiOS.h"
+#include "ofxiOSExtras.h"
+#include "ofxiOSWebViewController.h"
 
-class testApp : public ofxiPhoneApp{
+class testApp : public ofxiOSApp{
 	
     public:
     
@@ -27,8 +27,8 @@ class testApp : public ofxiPhoneApp{
     
     private:
     
-        ofxiPhoneWebViewController inlineWebViewController;
-        void webViewEvent(ofxiPhoneWebViewControllerEventArgs &args);
+        ofxiOSWebViewController inlineWebViewController;
+        void webViewEvent(ofxiOSWebViewControllerEventArgs &args);
         
 };
 
