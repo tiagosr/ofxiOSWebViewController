@@ -9,4 +9,4 @@ http://twitter.com/tiagosr
 about this fork:
 ==========================
 
-This version improves on an improvement on the original project at https://github.com/danvanhasselt/ofxiPhoneWebViewController
+This version improves on an improvement on the original project at https://github.com/daanvanhasselt/ofxiPhoneWebViewController
